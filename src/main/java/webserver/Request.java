@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import util.HttpRequestUtils;
 import util.IOUtils;
 import util.Pair;
@@ -28,6 +29,7 @@ public class Request {
 	private List<Pair> headerPairs;
 	private Map<String, String> parsedQueryString;
 	private String requestBody;
+	private String uuid;
 
 	public Request(InputStream in) {
 		InputStreamReader inputReader = new InputStreamReader(in);
@@ -38,6 +40,14 @@ public class Request {
 		extractRequestLine(br);
 		this.headerPairs = IOUtils.readRequestHeader(br);
 		this.requestBody = decode(IOUtils.readData(br, takeContentLength()));
+		this.uuid = extractUUID();
+	}
+
+	private String extractUUID() {
+		Pair cookie = headerPairs.stream().filter(p -> p.getKey().equals("Cookie")).findAny()
+			.orElseGet(() -> new Pair("Cookie", "sessionId=logout"));
+		Map<String, String> cookies = HttpRequestUtils.parseCookies(cookie.getValue());
+		return cookies.get("sessionId");
 	}
 
 	private void extractRequestLine(BufferedReader br) throws IOException {
@@ -90,5 +100,9 @@ public class Request {
 
 	public String getRequestLine() {
 		return requestLine;
+	}
+
+	public String getUUID() {
+		return uuid;
 	}
 }
