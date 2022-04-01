@@ -9,6 +9,11 @@ import model.User;
 public class DataBase {
     private static Map<String, User> users = new HashMap<>();
 
+    static {
+        users.put("user1", new User("user1", "1234", "나단", "a@a"));
+        users.put("user2", new User("user2", "1234", "제리", "b@b"));
+    }
+
     public static void addUser(User user) {
         users.put(user.getUserId(), user);
     }
