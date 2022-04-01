@@ -60,7 +60,7 @@ public class Request {
 
 	private int takeContentLength() {
 		Optional<Pair> pair = headerPairs.stream()
-			.filter(Pair::isContentLength)
+			.filter(p -> p.getKey().equals("Content-Length"))
 			.findAny();
 		return pair.map(p -> Integer.parseInt(p.getValue())).orElse(0);
 	}
