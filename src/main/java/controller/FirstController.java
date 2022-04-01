@@ -22,6 +22,8 @@ public class FirstController {
 		map.put(new ControllerMapper(HttpMethod.GET, "/user/logout"), UserLogoutController.getInstance());
 		map.put(new ControllerMapper(HttpMethod.POST, "/user/login"), UserLoginController.getInstance());
 		map.put(new ControllerMapper(HttpMethod.GET, "/user/list"), UserListController.getInstance());
+		map.put(new ControllerMapper(HttpMethod.POST, "/create/article"), CreateArticleController.getInstance());
+		map.put(new ControllerMapper(HttpMethod.GET, "/qna/form"), QnaFormController.getInstance());
 	}
 
 	public void run(Request request, Response response) throws IOException {

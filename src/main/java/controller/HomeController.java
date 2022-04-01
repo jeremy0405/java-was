@@ -38,6 +38,7 @@ public class HomeController implements Controller {
 			body = makeDynamicHtmlBody(request);
 		} else {
 			body = Files.readAllBytes(new File("./webapp" + request.getPath()).toPath());
+			log.debug(request.getPath());
 
 		}
 		log.debug(body.length+"");
