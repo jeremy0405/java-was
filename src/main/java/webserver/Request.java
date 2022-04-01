@@ -59,7 +59,7 @@ public class Request {
 		this.parsedQueryString = takeParsedQueryString();
 	}
 
-	private String takeExtension() {
+	public String takeExtension() {
 		if (path.equals("/")) {
 			return "";
 		}

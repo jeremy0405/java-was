@@ -1,6 +1,6 @@
 package controller;
 
-import db.DataBase;
+import db.UserDataBase;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +33,7 @@ public class UserListController implements Controller {
 	@Override
 	public void process(Request request, Response response) throws IOException {
 		String userId = HttpSession.checkUser(request.getUUID());
-		User findUser = DataBase.findUserById(userId);
+		User findUser = UserDataBase.findUserById(userId);
 
 		log.debug(request.getMime());
 
@@ -71,7 +71,7 @@ public class UserListController implements Controller {
 	}
 
 	private void writeDynamicUserList(StringBuilder sb) {
-		Collection<User> users = DataBase.findAll();
+		Collection<User> users = UserDataBase.findAll();
 		int count = 0;
 		for (User user : users) {
 			count++;

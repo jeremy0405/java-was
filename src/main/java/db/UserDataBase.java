@@ -6,7 +6,7 @@ import java.util.Map;
 
 import model.User;
 
-public class DataBase {
+public class UserDataBase {
     private static Map<String, User> users = new HashMap<>();
 
     static {

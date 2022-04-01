@@ -1,9 +1,7 @@
 package controller;
 
-import db.DataBase;
-import java.io.File;
+import db.UserDataBase;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +45,8 @@ public class UserJoinController implements Controller {
 
 		log.debug(request.getMime());
 
-		if (DataBase.validateDuplicatedId(user)) {
-			DataBase.addUser(user);
+		if (UserDataBase.validateDuplicatedId(user)) {
+			UserDataBase.addUser(user);
 			log.debug("SavedUser: {}", user);
 			pairs.add(new Pair("Location", "http://localhost:8080/index.html"));
 			response.write(HttpStatus.FOUND, pairs);

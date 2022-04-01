@@ -30,6 +30,7 @@ public class FirstController {
 			controller = HomeController.getInstance();
 		}
 		log.debug("call {}", controller);
+		log.debug(request.getRequestLine());
 		controller.process(request, response);
 	}
 

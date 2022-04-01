@@ -1,6 +1,6 @@
 package controller;
 
-import db.DataBase;
+import db.UserDataBase;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class UserLoginController implements Controller {
 
 		log.debug(request.getMime());
 
-		User user = DataBase.findUserById(parsedBody.get("userId"));
+		User user = UserDataBase.findUserById(parsedBody.get("userId"));
 		List<Pair> pairs = new ArrayList<>();
 		pairs.add(new Pair("Content-Type", request.getMime()));
 
