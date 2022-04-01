@@ -35,15 +35,22 @@ public class UserListController implements Controller {
 		String userId = HttpSession.checkUser(request.getUUID());
 		User findUser = DataBase.findUserById(userId);
 
+		log.debug(request.getMime());
+
+		List<Pair> pairs = new ArrayList<>();
+		pairs.add(new Pair("Content-Type", request.getMime()));
+
 		if (findUser == null) {
-			List<Pair> pairs = new ArrayList<>();
 			pairs.add(new Pair("Location", "http://localhost:8080/user/login.html"));
 			response.write(HttpStatus.FOUND, pairs);
 			return;
 		}
+
 		byte[] body = makeDynamicHtmlBody();
+		pairs.add(new Pair("Content-Length", String.valueOf(body.length)));
+		response.write(body, HttpStatus.OK, pairs);
+
 		log.debug("path: {}", request.getPath());
-		response.write(body, HttpStatus.OK);
 	}
 
 	private byte[] makeDynamicHtmlBody() throws IOException {

@@ -31,8 +31,11 @@ public class UserLoginController implements Controller {
 		Map<String, String> parsedBody = request.takeParsedBody();
 		log.debug("POST BODY: {}", parsedBody);
 
+		log.debug(request.getMime());
+
 		User user = DataBase.findUserById(parsedBody.get("userId"));
 		List<Pair> pairs = new ArrayList<>();
+		pairs.add(new Pair("Content-Type", request.getMime()));
 
 		if (user != null && user.getPassword().equals(parsedBody.get("password"))) {
 			log.debug("login 성공");

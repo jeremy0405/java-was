@@ -17,11 +17,12 @@ public class Response {
 		this.dos = new DataOutputStream(out);
 	}
 
-	public void write(byte[] body, HttpStatus httpStatus) {
+	public void write(byte[] body, HttpStatus httpStatus, List<Pair> pairs) {
 		try {
 			dos.writeBytes("HTTP/1.1 " + httpStatus.getMessage() + "\r\n");
-			dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
-			dos.writeBytes("Content-Length: " + body.length + "\r\n");
+			for (Pair pair : pairs) {
+				dos.writeBytes(pair.toString() + "\r\n");
+			}
 			dos.writeBytes("\r\n");
 			dos.write(body, 0, body.length);
 			dos.flush();
@@ -33,7 +34,6 @@ public class Response {
 	public void write(HttpStatus httpStatus, List<Pair> pairs) {
 		try {
 			dos.writeBytes("HTTP/1.1 " + httpStatus.getMessage() + "\r\n");
-			dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
 			for (Pair pair : pairs) {
 				dos.writeBytes(pair.toString() + "\r\n");
 			}

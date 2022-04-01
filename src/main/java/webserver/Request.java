@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 import util.HttpRequestUtils;
 import util.IOUtils;
 import util.Pair;
@@ -30,6 +29,7 @@ public class Request {
 	private Map<String, String> parsedQueryString;
 	private String requestBody;
 	private String uuid;
+	private ContentType contentType;
 
 	public Request(InputStream in) {
 		InputStreamReader inputReader = new InputStreamReader(in);
@@ -55,7 +55,16 @@ public class Request {
 		this.parsedRequestLine = requestLine.split(" ");
 		this.httpMethod = HttpMethod.create(parsedRequestLine[HTTP_METHOD]);
 		this.path = parseRequestURL()[PATH];
+		this.contentType = ContentType.create(takeExtension());
 		this.parsedQueryString = takeParsedQueryString();
+	}
+
+	private String takeExtension() {
+		if (path.equals("/")) {
+			return "";
+		}
+		String[] split = path.split("\\.");
+		return split[split.length - 1];
 	}
 
 	private int takeContentLength() {
@@ -104,5 +113,9 @@ public class Request {
 
 	public String getUUID() {
 		return uuid;
+	}
+
+	public String getMime() {
+		return contentType.getMime();
 	}
 }

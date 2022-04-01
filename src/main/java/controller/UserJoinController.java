@@ -38,11 +38,15 @@ public class UserJoinController implements Controller {
 			parsedBody.get("name"),
 			parsedBody.get("email")
 		);
-		saveUser(user, response);
+		saveUser(request, response, user);
 	}
 
-	private void saveUser(User user, Response response) {
+	private void saveUser(Request request, Response response, User user) {
 		List<Pair> pairs = new ArrayList<>();
+		pairs.add(new Pair("Content-Type", request.getMime()));
+
+		log.debug(request.getMime());
+
 		if (DataBase.validateDuplicatedId(user)) {
 			DataBase.addUser(user);
 			log.debug("SavedUser: {}", user);

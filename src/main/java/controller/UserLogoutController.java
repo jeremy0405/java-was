@@ -25,7 +25,10 @@ public class UserLogoutController implements Controller {
 
 	@Override
 	public void process(Request request, Response response) {
+		log.debug(request.getMime());
+
 		List<Pair> pairs = new ArrayList<>();
+		pairs.add(new Pair("Content-Type", request.getMime()));
 		pairs.add(new Pair("Location", "http://localhost:8080/index.html"));
 		pairs.add(new Pair("Set-Cookie", "sessionId=; max-age=-1; Path=/"));
 		response.write(HttpStatus.FOUND, pairs);
