@@ -49,22 +49,11 @@ public class UserListController implements Controller {
 	private byte[] makeDynamicHtmlBody() throws IOException {
 		StringBuilder sb = new StringBuilder();
 		List<String> htmlLines = Files.readAllLines(new File("./webapp/user/list.html").toPath());
-		String target = "<!--{{users}}-->";
-		boolean lock = false;
+		String target = "{{users}}";
 		for (String htmlLine : htmlLines) {
 
-			if (target.equals(htmlLine) && !lock) {
-				lock = true;
+			if (htmlLine.contains(target)) {
 				writeDynamicUserList(sb);
-				continue;
-			}
-
-			if (target.equals(htmlLine)) {
-				lock = false;
-				continue;
-			}
-
-			if (lock) {
 				continue;
 			}
 
